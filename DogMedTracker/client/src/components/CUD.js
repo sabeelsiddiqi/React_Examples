@@ -74,32 +74,51 @@ class CUD extends Component {
 
   render() {
     return (
-      <div className="centerInputs">
+      <div className="inputCenter">
 
-        <div >
-          <input
-            type="text"
-            onChange={e => this.setState({ message: e.target.value })}
-            placeholder="add something in the database"
-          />
-          <button onClick={() => this.putDataToDB(this.state.message)}>
-            ADD
-          </button>
+      <div class="input-group mb-3">
+        <input 
+          type="text" 
+          class="form-control" 
+          placeholder="Recipient's username" 
+          aria-label="Recipient's username" 
+          aria-describedby="basic-addon2"
+
+          type="text"
+          onChange={e => this.setState({ message: e.target.value })}
+          placeholder="Add String"
+
+        />
+
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button"
+            onClick={() => this.putDataToDB(this.state.message)}>Add</button>
         </div>
+      </div>
+
+
+      <div class="input-group mb-3">
+        <input 
+          type="text" 
+          class="form-control" 
+          placeholder="Recipient's username" 
+          aria-label="Recipient's username" 
+          aria-describedby="basic-addon2"
+
+          type="text"
+          onChange={e => this.setState({ idToDelete: e.target.value })}
+          placeholder="ID of Item"
+
+        />
+
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button"
+            onClick={() => this.deleteFromDB(this.state.idToDelete)}>Delete</button>
+        </div>
+      </div>
+      
 
         
-        <div >
-          <input
-            type="text"
-            onChange={e => this.setState({ idToDelete: e.target.value })}
-            placeholder="put id of item to delete here"
-          />
-          <button onClick={() => this.deleteFromDB(this.state.idToDelete)}>
-            DELETE
-          </button>
-        </div>
-
-
 
 
 

@@ -1,16 +1,34 @@
+/* NAVBAR COMPONENT */
+.navbar{
+    background:#71d0b5;
+    color:white;
+}
+
+
 /* HEADER COMPONENT */
 
 .centerText{
     text-align: center;
 }
 
+.imgPadding{
+    padding: 1rem;
+}
+
 
 /* TABLE COMPONENT */
-
-
+.table{
+    color:#7b7b7b;
+}
 
 
 /* CUD COMPONENT */
 .centerInputs{
     text-align: center;
+}
+
+.inputCenter{
+    width: 25%;
+    margin-left: auto;
+    margin-right: auto;
 }

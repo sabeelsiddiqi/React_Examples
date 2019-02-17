@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import './App.css';
 
 import Navbar from './components/Navbar'
 import Header from './components/Header'
@@ -8,14 +7,15 @@ import CUD from './components/CUD'
 
 
 import 'bootstrap/dist/css/bootstrap.css';
+import './App.css';
 
 
 class App extends Component {
   render() {
     return (
-      <div>
+      <div className="background">
         <Navbar/>
-        <div className="container">
+        <div className="container background">
 
           <Header />
           <Table />
