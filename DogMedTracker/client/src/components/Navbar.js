@@ -4,9 +4,9 @@ class Navbar extends Component {
   render() {
     return (
       <div>
-        <nav class="navbar">
-            <span class="navbar-brand mb-0 h1">R&amp;R Inc.</span>
-            <button type="button" class="btn-success">Admin</button>
+        <nav className="navbar">
+            <span className="navbar-brand mb-0 h1">R&amp;R Inc.</span>
+            <button type="button" className="btn-success">Admin</button>
         </nav>
       </div>
     )
