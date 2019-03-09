@@ -8,6 +8,12 @@ const API_PORT = 3001;
 const app = express();
 const router = express.Router();
 
+var rc522 = require("rc522");
+
+rc522(function(rfidSerialNumber){
+    console.log(rfidSerialNumber);
+});
+
 // this is our MongoDB database
 const dbRoute = "mongodb+srv://admin:c0de@cluster0-kbv1p.mongodb.net/test?retryWrites=true";
 
