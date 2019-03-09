@@ -41,10 +41,11 @@ currentDate = datetime.date(datetime.now());
 currentTime = datetime.time(datetime.now());
 currentHour = currentTime.hour;
 
-medicationTime = 5;
+medicationTime = 17;
 
 lastGivenDate = None;
 medicationGiven=False;
+textStatus=False;
 
 try:
     # Main loop
@@ -53,10 +54,28 @@ try:
         #print(sensorValue);
         
         if(lastGivenDate!=currentDate):
+            #reset
             bottleState = True;
+            medicationGiven = False;
+            textStatus = False;
+            
             print("SET GREEN LED");
             print("POST ALLOWED TO HAPPEN");
             
+            
+            
+            
+            
+        if(currentHour >= medicationTime and medicationGiven==False and textStatus==False):            
+            print("SEND REMINDER TEXT");
+            textStatus=True;
+            
+            
+            
+            
+            
+            
+
         if(sensorValue < limit and bottleState==True and lastGivenDate!=currentDate):
             
             # Set bottleOff
@@ -76,16 +95,26 @@ try:
             
             requests.post('http://localhost:3001/api/putData',json={'id':idLength,'message':msg});
             
-            print("RED LED IS ON");     
+            print("RED LED IS ON");
+            
+            
+            
+            
         elif(sensorValue>limit and bottleState==False):
             #Set bottleOn
             bottleState = True;
             print("BOTTLE IS BACK ON!");
             
             print("TURN ALARM OFF");
+            
+            
+            
         elif(sensorValue<limit and bottleState==True and lastGivenDate==currentDate):
             bottleState = False;
             print("BUZZ ALARM");
+            
+            
+            
             
 except KeyboardInterrupt:
     pass
