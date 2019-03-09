@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"cd backend && node server.js\" \"cd client && npm start\" \"cd bottleSensor && python bottleSensor.py\""
+    "start": "concurrently \"cd backend && node server.js\" \"cd client && npm start\" \"cd bottleSensor && python pillBottleSensor.py\""
   },
   "keywords": [],
   "author": "",
