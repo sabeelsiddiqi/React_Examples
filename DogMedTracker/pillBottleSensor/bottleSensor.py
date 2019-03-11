@@ -4,6 +4,7 @@ import time
 from datetime import datetime
 import requests
 
+
 import twilio
 from twilio.rest import Client
 
@@ -12,10 +13,38 @@ auth_token = '96e970609a4499b510ebcf76fd037293'
 client = Client(account_sid, auth_token)
 
 GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+
+buzzer=32
+GPIO.setup(buzzer, GPIO.OUT)
+
+greenLED=18
+redLED=12
+GPIO.setup(greenLED, GPIO.OUT)
+GPIO.setup(redLED, GPIO.OUT)
 
 #define the pin that goes to the circuit
 pin_to_circuit = 7
 
+def greenOn():
+    GPIO.output(greenLED, GPIO.HIGH)
+
+def greenOff():
+    GPIO.output(greenLED, GPIO.LOW)
+
+def redOn():
+    GPIO.output(redLED, GPIO.HIGH)
+    
+def redOff():
+    GPIO.output(redLED, GPIO.LOW)
+    
+def buzzerOn():
+    GPIO.output(buzzer, GPIO.HIGH)
+
+def buzzerOff():
+    GPIO.output(buzzer,GPIO.LOW)
+
+    
 def rc_time (pin_to_circuit):
     count = 0
   
@@ -49,18 +78,20 @@ def sendText():
     print(message.sid);
 
 #Catch when script is interupted, cleanup correctly
-limit = 100000;
-bottleState = True;
+limit = 45000
+bottleState = True
 
-currentDate = datetime.date(datetime.now());
-currentTime = datetime.time(datetime.now());
-currentHour = currentTime.hour;
+currentDate = datetime.date(datetime.now())
+currentTime = datetime.time(datetime.now())
+currentHour = currentTime.hour
 
-medicationTime = 17;
+medicationTime = 17
 
-lastGivenDate = None;
-medicationGiven=False;
-textStatus=False;
+lastGivenDate = None
+medicationGiven=False
+textStatus=False
+greenOn()
+redOff()
 
 try:
     # Main loop
@@ -68,19 +99,22 @@ try:
         sensorValue = rc_time(pin_to_circuit)
         print(sensorValue);
 
-        if(lastGivenDate!=currentDate):
+        if(lastGivenDate!=currentDate and currentHour==1):
             #reset
-            bottleState = True;
-            medicationGiven = False;
-            textStatus = False;
+            bottleState = True
+            medicationGiven = False
+            textStatus = False
             
-            print("SET GREEN LED");
-            print("POST ALLOWED TO HAPPEN");
+            print("SET GREEN LED")
+            redOff()
+            greenOn()
+            
+            print("POST ALLOWED TO HAPPEN")
             
         if(currentHour >= medicationTime and medicationGiven==False and textStatus==False):            
-            print("SEND REMINDER TEXT");
-            sendText();
-            textStatus=True;
+            print("SEND REMINDER TEXT")
+            sendText()
+            textStatus=True
             
         if(sensorValue < limit and bottleState==True and lastGivenDate!=currentDate):
             
@@ -93,24 +127,29 @@ try:
             
             print("SENT POST Message");
             idLength = dataLength();
-            msg = "Given";
-            requests.post('http://localhost:3001/api/putData',json={'id':idLength,'message':msg});
+            requests.post('http://localhost:3001/api/putData',json={'id':idLength,'message':'Given'});
             
             # Turn on Red LED and Don't Allow Post to Happen on Same Day
-            print("RED LED IS ON");
-            lastGivenDate = currentDate;
+            print("RED LED IS ON")
+            greenOff()
+            redOn()
+            lastGivenDate = currentDate
+            
+            print(lastGivenDate);
 
             
         elif(sensorValue>limit and bottleState==False):
             #Set bottleOn
-            print("BOTTLE IS BACK ON!");
+            print("BOTTLE IS BACK ON!")
             bottleState = True;
             
-            print("TURN ALARM OFF");
+            print("TURN ALARM OFF")
+            buzzerOff();
             
         elif(sensorValue<limit and bottleState==True and lastGivenDate==currentDate):
             bottleState = False;
             print("BUZZ ALARM");
+            buzzerOn();
             
 except KeyboardInterrupt:
     pass
